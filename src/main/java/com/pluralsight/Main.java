@@ -29,77 +29,98 @@ public class Main {
 
 
         Scanner scanner = new Scanner(System.in);
-
         Boolean isDone = false;
-
-
         while(!isDone){
-
             System.out.println("Choose a option");
             System.out.println("---------------------");
             System.out.println("1 - Show Available Books");
             System.out.println("2 - Show Checked Out Books");
             System.out.println("3 - Exit");
-
             int command = scanner.nextInt();
-
             scanner.nextLine();
-
             switch(command){
                 case 1:
                     availableBooks(scanner);
                     break;
-
                 case 2:
-
+                    checkedOut(scanner);
                     break;
-
                 case 3:
-
+                    isDone = true;
                     break;
-
                 default:
-
                     System.out.println("invalid option");
                     break;
             }
-
-
-
         }
-
-
+        scanner.close();
     }
-
     public static void availableBooks(Scanner scanner){
         System.out.println("Available Books");
         for(int i = 0; i < books.length; i++){
-            System.out.println(books[i]);
+            if(!books[i].isCheckedOut()) {
+                System.out.println(books[i]);
+            }
         }
-
-        System.out.println("Enter A - checkout a book \n" +
-                "Enter X to go back to the menu");
+        System.out.println("Enter C - checkout a book \n" +
+                "Enter X - to go back to the menu");
         String option1 = scanner.nextLine();
-
         boolean rightInput = false;
-
-        if(option1.equalsIgnoreCase("a")){
+        if(option1.equalsIgnoreCase("c")){
+            System.out.println("Enter your name: ");
+            String name = scanner.nextLine();
             System.out.println("Enter the id of the book you want to checkout");
-            int bookId = scanner.nextInt();
+            int checkOutBookId = scanner.nextInt();
             scanner.nextLine();
-//            for (int i = 0; i < books.length; i++) {
-//                if(books[i].getId())
-//
-//            }
-
-            rightInput = true;
+            for (int i = 0; i < books.length; i++) {
+                if(checkOutBookId == books[i].getId()){
+                    books[checkOutBookId - 1].checkout(name);
+                    System.out.println(name + " you have successfully checked out " + books[checkOutBookId - 1].getTitle());
+                    rightInput = true;
+                }
+            }
         } else if (option1.equalsIgnoreCase("x")) {
             System.out.println("going back to menu");
             rightInput = true;
         } else if(!rightInput){
             System.out.println("wrong input, going back to the menu");
         }
-
     }
-
+    public static void checkedOut (Scanner scanner){
+        for(int i = 0; i < books.length; i++){
+            if(books[i].isCheckedOut()) {
+                System.out.println(books[i] + " | checked out by " + books[i].getCheckedOutTO());
+            }
+        }
+        System.out.println("Enter C to check in a book");
+        System.out.println("Enter X to go back to the home screen");
+        String option2 = scanner.nextLine();
+        boolean rightInput = false;
+        if(option2.equalsIgnoreCase("c")){
+            checkedIn(scanner);
+        } else if (option2.equalsIgnoreCase("x")) {
+            System.out.println("going back to menu");
+            rightInput = true;
+        }
+        if(!rightInput){
+            System.out.println("wrong input, going back to the menu");
+        }
+    }
+    public static void checkedIn(Scanner scanner) {
+        System.out.println("Enter the id of the book you want to check in");
+        int checkInBookId = scanner.nextInt();
+        scanner.nextLine();
+        boolean rightInput = false;
+        for (int i = 0; i < books.length; i++) {
+            if(checkInBookId == books[i].getId()){
+                books[checkInBookId - 1].checkIn();
+                System.out.println("you have successfully checked in " + books[checkInBookId - 1].getTitle());
+                System.out.println("Going back to the menu");
+                rightInput = true;
+            }
+        }
+        if(!rightInput){
+            System.out.println("wrong id, going back to the menu");
+        }
+    }
 }

@@ -56,11 +56,13 @@ public class Book {
     }
 
     public void checkout(String name) {
-
+            this.isCheckedOut = true;
+            this.checkedOutTO = name;
     }
 
     public void checkIn() {
-
+            this.isCheckedOut = false;
+            this.checkedOutTO = "";
     }
 
     @Override
