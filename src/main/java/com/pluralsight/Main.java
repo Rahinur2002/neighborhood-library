@@ -101,9 +101,9 @@ public class Main {
         } else if (option2.equalsIgnoreCase("x")) {
             System.out.println("going back to menu");
             rightInput = true;
-        }
-        if(!rightInput){
+        }else if(!rightInput){
             System.out.println("wrong input, going back to the menu");
+
         }
     }
     public static void checkedIn(Scanner scanner) {
